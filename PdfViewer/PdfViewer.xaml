@@ -4,9 +4,61 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <ScrollViewer PanningMode="Both"
-                Background="DarkGray" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto" CanContentScroll="True">
-        <ItemsControl x:Name="PagesContainer"/>
-    </ScrollViewer>
+             d:DesignHeight="300" d:DesignWidth="300"
+             MinWidth="300"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+
+    
+    <DockPanel LastChildFill="True">
+        <StatusBar DockPanel.Dock="Top" Height="25">
+            <TextBlock Text="{Binding ElementName=PagesContainer, Path=ActualWidth}"></TextBlock>
+        </StatusBar>
+
+        <Grid DockPanel.Dock="Top" Height="40" HorizontalAlignment="Stretch" Background="Gray">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="10"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
+                    <Button Name="btnUp" Width="30" Height="30" Click="btnUp_Click">▲</Button>
+                    <Button Name="btnDown" Width="30" Height="30" Click="btnDown_Click">▼</Button>
+                <TextBox Name="tbCurrentPage" VerticalAlignment="Center" Margin="7,0,0,0" Width="30" Height="30" KeyDown="tbCurrentPage_KeyDown" MouseLeave="tbCurrentPage_MouseLeave" FontSize="18" TextAlignment="Center"></TextBox>
+                <TextBlock VerticalAlignment="Center" FontSize="18" Margin="10,0,0,0"> / </TextBlock>
+                    <TextBlock Name="tbPageCount" VerticalAlignment="Center" FontSize="18" Margin="10,0,0,0">-1</TextBlock>
+                </StackPanel>
+            </Grid>
+            
+            
+        <ScrollViewer Name="ScrollViewer" PanningMode="Both" DockPanel.Dock="Top" Height="Auto"
+                Background="DarkGray" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"  CanContentScroll="True" ScrollChanged="ScrollViewer_ScrollChanged" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" ClipToBounds="True" PreviewMouseMove="ScrollViewer_PreviewMouseMove" PreviewMouseLeftButtonUp="ScrollViewer_PreviewMouseLeftButtonUp">
+            <ListView x:Name="PagesContainer" HorizontalAlignment="Center" Focusable="False" PreviewMouseWheel="PagesContainer_PreviewMouseWheel" PreviewMouseLeftButtonDown="PagesContainer_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="PagesContainer_PreviewMouseLeftButtonUp">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Focusable" Value="False"/>
+                        <Setter Property="Background" Value="Transparent" />
+
+
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListViewItem}" x:Name="PageTemplate">
+                                    <StackPanel Background="DarkGray">
+                                        <ContentPresenter Name="ContentPresenter"  Margin="0,0,0,5" />
+                                    </StackPanel>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+        </ScrollViewer>
+
+       
+        </DockPanel>
+
 </UserControl>

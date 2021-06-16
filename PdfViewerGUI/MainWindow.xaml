@@ -20,9 +20,7 @@
             <ColumnDefinition Width="20"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch">
-            <pdfviewer:PdfViewer PdfPath="D:\Desktop\20210423 Park Control.pdf" Height="600"></pdfviewer:PdfViewer>
-        </StackPanel>
-        
+        <pdfviewer:PdfViewer Grid.Row="1" Grid.Column="1" PdfPath="D:\Desktop\Debug\1.pdf" Height="Auto"></pdfviewer:PdfViewer>
+
     </Grid>
 </Window>
