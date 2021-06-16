@@ -15,8 +15,7 @@ namespace PdfViewer
     public static class ScrollViewerHelper
     {
 
-        [CanBeNull]
-        public static T FindDescendant<T>([CanBeNull] this DependencyObject d) where T : DependencyObject
+        public static T FindDescendant<T>(this DependencyObject d) where T : DependencyObject
         {
             if (d == null)
                 return null;

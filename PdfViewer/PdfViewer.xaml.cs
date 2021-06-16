@@ -125,7 +125,7 @@ namespace PdfViewer
                     {
                         Source = bitmap,
                         HorizontalAlignment = HorizontalAlignment.Center,
-                        Margin = new Thickness(0, 4, 0, 4),
+                        //Margin = new Thickness(0, 4, 0, 4),                        
                         MaxWidth = 800,
                         ClipToBounds = true                        
                     };
