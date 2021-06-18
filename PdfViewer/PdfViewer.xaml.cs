@@ -18,7 +18,7 @@ using Windows.Data.Pdf;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
-namespace PdfViewer
+namespace SimplePdfViewer
 {
     /// <summary>
     /// Interaktionslogik für PdfViewer.xaml
@@ -47,12 +47,12 @@ namespace PdfViewer
                 //making sure it's an absolute path
                 var path = System.IO.Path.GetFullPath(pdfDrawer.PdfPath);
 
-                StorageFile.GetFileFromPathAsync(path).AsTask()
-                  //load pdf document on background thread
-                  .ContinueWith(t => PdfDocument.LoadFromFileAsync(t.Result).AsTask()).Unwrap()
-                  //display on UI Thread
-                  .ContinueWith(t2 => PdfToImages(pdfDrawer, t2.Result), TaskScheduler.FromCurrentSynchronizationContext());             
+                pdfDrawer.DisplayPdf(path);
+            }
 
+            if (string.IsNullOrEmpty(pdfDrawer.PdfPath))
+            {
+                pdfDrawer.CloseDocument();
             }
 
         }
@@ -69,6 +69,24 @@ namespace PdfViewer
             get { return _zoomFactor; }
             set { _zoomFactor = value; }
         }
+
+
+
+        public bool IsLoading
+        {
+            get { return (bool)GetValue(IsLoadingProperty); }
+            set {
+                if (value == true) { HideControls(); Spinner.Visibility = Visibility.Visible; }
+                else if (value == false) { ShowControls(); Spinner.Visibility = Visibility.Collapsed; }
+
+                    SetValue(IsLoadingProperty, value); 
+                }
+        }
+
+        // Using a DependencyProperty as the backing store for IsLoading.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsLoadingProperty =
+            DependencyProperty.Register("IsLoading", typeof(bool), typeof(PdfViewer), new PropertyMetadata(true));
+
 
         //variables to store the offset values
         private double relX;
@@ -97,6 +115,47 @@ namespace PdfViewer
             PagesContainer.ScrollIntoView(PagesContainer.Items[pageNumber - 1]); 
         }
 
+        public void DisplayPdf(string pdfPath)
+        {
+            IsLoading = true;
+
+
+            StorageFile.GetFileFromPathAsync(pdfPath).AsTask()
+                  //load pdf document on background thread
+                  .ContinueWith(t => PdfDocument.LoadFromFileAsync(t.Result).AsTask()).Unwrap()
+                  //display on UI Thread
+                  .ContinueWith(t2 => PdfToImages(this, t2.Result), TaskScheduler.FromCurrentSynchronizationContext());                  
+            
+        }
+
+        public void CloseDocument()
+        {
+            HideControls();
+            PagesContainer.ItemsSource = null;
+        }
+
+        private void HideControls()
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                PagesContainer.Visibility = Visibility.Hidden;
+                PageNumberContainer.Visibility = Visibility.Collapsed;
+                btnUp.IsEnabled = false;
+                btnDown.IsEnabled = false;
+            });
+        }
+
+        private void ShowControls()
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                PagesContainer.Visibility = Visibility.Visible;
+                PageNumberContainer.Visibility = Visibility.Visible;
+                btnUp.IsEnabled = true;
+                btnDown.IsEnabled = true;
+            });
+            
+        }
     #endregion
 
 
@@ -106,13 +165,17 @@ namespace PdfViewer
 
             PagesContainer.PreviewMouseWheel += PagesContainer_PreviewMouseWheel;
             ZoomFactor = 1.0;
+
+            PagesContainer.Visibility = Visibility.Hidden;
+            PageNumberContainer.Visibility = Visibility.Collapsed;
+            Spinner.Visibility = Visibility.Collapsed;
             
         }
 
         private static async Task PdfToImages(PdfViewer pdfViewer, PdfDocument pdfDoc)
         {
-            var items = pdfViewer.PagesContainer.Items;
-            items.Clear();
+            var pages = new List<Image>();
+
 
             if (pdfDoc == null) return;
 
@@ -132,12 +195,16 @@ namespace PdfViewer
 
                     RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.Fant);
 
-                    items.Add(image);
+                    pages.Add(image);
                 }
             }
 
+            pdfViewer.PagesContainer.Items.Clear();
+            pdfViewer.PagesContainer.ItemsSource = pages;
+
             pdfViewer.tbPageCount.Text = pdfViewer.PagesContainer.Items.Count.ToString();
             pdfViewer.tbCurrentPage.Text = "1";
+            pdfViewer.IsLoading = false;
         }
 
         private static async Task<BitmapImage> PageToBitmapAsync(PdfPage page)

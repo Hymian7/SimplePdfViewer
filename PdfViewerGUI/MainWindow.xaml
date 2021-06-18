@@ -4,23 +4,35 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PdfViewerGUI"
-        xmlns:pdfviewer="clr-namespace:PdfViewer;assembly=PdfViewer"
+        xmlns:pdfviewer="clr-namespace:SimplePdfViewer;assembly=PdfViewer"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="20"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="20"></RowDefinition>
-        </Grid.RowDefinitions>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Datei">
+                <MenuItem Name="btnOpen" Header="Dokument _öffnen" Click="btnOpen_Click"/>
+                <MenuItem Name="btnClose" Header="Dokument _schließen" Click="btnClose_Click"/>
+                <Separator/>
+                <MenuItem Name="btnQuit" Header="_Anwendung schließen" Click="btnQuit_Click"/>
+            </MenuItem>
+            
+        </Menu>
+        
+        <Grid DockPanel.Dock="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="20"></RowDefinition>
+            </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="20"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="20"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
 
-        <pdfviewer:PdfViewer Grid.Row="1" Grid.Column="1" PdfPath="D:\Desktop\Debug\1.pdf" Height="Auto"></pdfviewer:PdfViewer>
+            <pdfviewer:PdfViewer Name="PdfViewerControl" Grid.Row="1" Grid.Column="1" Height="Auto"></pdfviewer:PdfViewer>
 
-    </Grid>
+        </Grid>
+    </DockPanel>
 </Window>

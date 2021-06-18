@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,28 @@ namespace PdfViewerGUI
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void btnOpen_Click(object sender, RoutedEventArgs e)
+        {
+            var ofd = new OpenFileDialog();
+            ofd.Filter = "PDF Files | *.pdf";
+            ofd.Multiselect = false;
+
+            if (ofd.ShowDialog() == true)
+            {
+                PdfViewerControl.PdfPath = ofd.FileName;
+            }
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            PdfViewerControl.PdfPath = null;
+        }
+
+        private void btnQuit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }

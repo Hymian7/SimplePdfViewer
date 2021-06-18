@@ -1,8 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0-windows10.0.17763.0</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
+    <RootNamespace>SimplePdfViewer</RootNamespace>
+    <PackageId>SimplePdfViewer.PdfViewer</PackageId>
+    <Authors>Hymian7</Authors>
+    <Description>A simple PdfViewer for WPF using the Windows 10 APIs as described in the following Blog.
+https://blogs.u2u.be/lander/post/2018/01/23/Creating-a-PDF-Viewer-in-WPF-using-Windows-10-APIs
+I added support for Zooming and Panning as well as some nice page navigation buttons.</Description>
   </PropertyGroup>
 
   <ItemGroup>
