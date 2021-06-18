@@ -7,4 +7,5 @@ I added support for Zooming and Panning as well as navigation buttons and the po
 Nuget Package available under
 
 
-#Screenshot
+# Screenshot
+![Screenshot of PdfViewer](https://github.com/Hymian7/SimplePdfViewer/blob/cbcd716def52924079ce3c2bfd13e277e7050e38/Screenshot%201.png)
