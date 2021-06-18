@@ -5,6 +5,7 @@ Check out https://blogs.u2u.be/lander/post/2018/01/23/Creating-a-PDF-Viewer-in-W
 I added support for Zooming and Panning as well as navigation buttons and the possibility to jump directly to an indicated page.
 
 Nuget Package available under
+https://www.nuget.org/packages/SimplePdfViewer.PdfViewer/
 
 
 # Screenshot
