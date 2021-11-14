@@ -10,3 +10,9 @@ https://www.nuget.org/packages/SimplePdfViewer.PdfViewer/
 
 # Screenshot
 ![Screenshot of PdfViewer](https://github.com/Hymian7/SimplePdfViewer/blob/cbcd716def52924079ce3c2bfd13e277e7050e38/Screenshot%201.png)
+
+# Usage
+In your XAML File add the control using the following snippet:
+```
+<pdfviewer:PdfViewer Name="PdfViewerControl" Grid.Row="1" Grid.Column="1" Height="Auto"></pdfviewer:PdfViewer>
+```
